@@ -1,0 +1,66 @@
+.titleInscription {
+    text-align: center;
+    color: #DE8500;
+    margin-top: 4%;
+    margin-bottom: 2%;
+}
+
+.textP {
+    text-align: center;
+}
+
+.registrationContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+.registrationForm {
+    width: 386px;
+
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.error {
+    color: red;
+
+}
+
+label {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.buttonSubmit {
+    width: 100px;
+    height: 30px;
+    background-color: #DE8500;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.buttonSubmit:hover {
+    background-color: #D17000;
+
+}
+
+.containerButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.successMessage {
+    margin-top: 2%;
+    color: green;
+    font-family: 'Jockey One', sans-serif;
+    font-size: 20px;
+}

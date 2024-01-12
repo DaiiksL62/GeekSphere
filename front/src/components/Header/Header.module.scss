@@ -1,0 +1,49 @@
+.blockHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #DE8500;
+    height: 144px;
+
+}
+
+
+
+.logoimg {
+    max-width: 10%;
+    margin-left: 7%;
+}
+
+.block {
+    justify-content: center;
+    margin-right: 8%;
+}
+
+/* Nav.module.scss */
+.block {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 4%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    font-size: 19px;
+    gap: 35px;
+}
+
+li {
+    margin-right: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-size: 22px;
+    font-family: 'Jockey One', sans-serif;
+
+}

@@ -1,0 +1,49 @@
+/* Footer.module.scss */
+.blockFooter {
+    background-color: #DE8500;
+    height: 144px;
+    width: 100%;
+}
+
+.containerIcon {
+    display: flex;
+
+    align-items: center;
+    height: 100%;
+    /* Ajustez selon vos besoins */
+    /* Ajustez la largeur maximale selon vos besoins */
+    margin: 0 auto;
+    /* Centrer le contenu horizontalement */
+}
+
+.linkBlock {
+    display: flex;
+    align-items: center;
+    max-width: 50%;
+    justify-content: center;
+
+}
+
+.IconBlock {
+    margin-bottom: 2%;
+
+    max-width: 19%;
+    margin-left: 22%;
+
+}
+
+.icon {
+    width: 20%;
+    margin-top: 42px;
+    margin-right: 20px;
+    /* Ajustez l'espacement entre les icônes et les liens selon vos besoins */
+}
+
+.link {
+    margin-left: 200px;
+}
+
+.iconLink {
+    margin-right: 0;
+    /* Ajustez l'espacement entre les icônes cliquables */
+}
