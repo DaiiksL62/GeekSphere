@@ -67,6 +67,7 @@ app.post("/inscription", upload.single("profilePicture"), async (req, res) => {
         email,
         password,
         agreeToTerms,
+        etat,
     } = req.body;
 
     // Vérifier si req.file existe avant d'accéder à ses propriétés
@@ -74,7 +75,7 @@ app.post("/inscription", upload.single("profilePicture"), async (req, res) => {
 
     try {
         // Validation des champs requis
-        if (!username || !firstName || !lastName || !email || !password || !agreeToTerms) {
+        if (!username || !firstName || !lastName || !email || !password || !agreeToTerms || !etat) {
             res.status(400).json({ message: "Veuillez fournir tous les champs requis" });
             return;
         }
@@ -85,8 +86,9 @@ app.post("/inscription", upload.single("profilePicture"), async (req, res) => {
         // Utilisez path.basename pour extraire le nom du fichier du chemin
         const fileName = profilePicturePath ? path.basename(profilePicturePath) : null;
 
-        const query = "INSERT INTO utilisateur (pseudo, nom, prenom, email, mot_de_passe, avatar) VALUES (?, ?, ?, ?, ?, ?)";
-        const values = [username, lastName, firstName, email, hashedPassword, fileName];
+        // Mettez à jour la requête SQL pour inclure la colonne etat
+        const query = "INSERT INTO utilisateur (pseudo, nom, prenom, email, mot_de_passe, avatar, etat) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        const values = [username, lastName, firstName, email, hashedPassword, fileName, etat];
 
         connection.query(query, values, (error, results, fields) => {
             if (error) {
@@ -106,6 +108,7 @@ app.post("/inscription", upload.single("profilePicture"), async (req, res) => {
 
 
 
+
 // Importer les modules nécessaires, y compris la connexion à la base de données, bcrypt, etc.
 
 app.post("/login", async (req, res) => {
@@ -118,7 +121,7 @@ app.post("/login", async (req, res) => {
             return;
         }
 
-        const query = 'SELECT * FROM utilisateur WHERE pseudo = ?';
+        const query = 'SELECT * FROM utilisateur WHERE pseudo = ?'; // Utilisez "pseudo" au lieu de "id"
         const values = [username];
 
         connection.query(query, values, async (error, results) => {
@@ -136,14 +139,30 @@ app.post("/login", async (req, res) => {
 
                 if (isPasswordValid) {
                     // Mot de passe correct
-                    console.log(`L'utilisateur ${user.pseudo}  s'est connecté avec succès.`);
+                    console.log(`L'utilisateur ${user.pseudo} s'est connecté avec succès.`);
 
-                    res.json({
+                    console.log('User from server:', {
                         id: user.id,
                         username: user.pseudo,
-                        firstName: user.prenom,
+                        firstname: user.prenom,
                         lastName: user.nom,
-                        // Ajouter d'autres informations utilisateur si nécessaire
+                        email: user.email,
+                        etat: user.etat,
+                        avatarFilename: user.avatar,
+                    });
+
+                    res.json({
+                        success: true,
+                        message: 'Connexion réussie',
+                        user: {
+                            id: user.id,
+                            username: user.pseudo,
+                            firstname: user.prenom,
+                            lastName: user.nom,
+                            email: user.email,
+                            etat: user.etat,
+                            avatarFilename: user.avatar,
+                        }
                     });
                 } else {
                     // Mot de passe incorrect
@@ -164,9 +183,104 @@ app.post("/login", async (req, res) => {
 
 
 
-app.get("/user", async (req, res) => {
-    return "ok";
-})
+
+// ... (imports)
+
+app.put("/profile/:userId", upload.single("avatar"), async (req, res) => {
+    const userIdToUpdate = parseInt(req.params.userId, 10);
+    const {
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+    } = req.body;
+
+    // Vérifier si req.file existe avant d'accéder à ses propriétés
+    const avatarPath = req.file ? req.file.path : null;
+
+    try {
+        // Validation des champs requis
+        if (!username || !firstName || !lastName || !email) {
+            res.status(400).json({ message: "Veuillez fournir tous les champs requis" });
+            return;
+        }
+
+        // Hasher le mot de passe avec bcrypt s'il est fourni
+        const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
+
+        // Utilisez path.basename pour extraire le nom du fichier du chemin
+        const avatarFileName = avatarPath ? path.basename(avatarPath) : null;
+
+        // Construire la requête SQL de mise à jour
+        const query = "UPDATE utilisateur SET pseudo=?, nom=?, prenom=?, email=? " +
+            (hashedPassword ? ", mot_de_passe=?" : "") +
+            (avatarFileName ? ", avatar=?" : "") +
+            " WHERE id=?";
+        const values = [
+            username,
+            lastName,
+            firstName,
+            email,
+            hashedPassword,
+            avatarFileName,
+            userIdToUpdate
+        ].filter(Boolean); // Filtrer les valeurs null ou non définies
+
+        connection.query(query, values, (error, results, fields) => {
+            if (error) {
+                console.error("Erreur lors de la mise à jour dans la base de données : ", error);
+                res.status(500).json({ message: "Erreur lors de la modification du profil" });
+                return;
+            }
+
+            // Vérifier si la mise à jour a réussi
+            if (results.affectedRows > 0) {
+                res.status(200).json({ message: "Profil mis à jour avec succès" });
+            } else {
+                res.status(404).json({ message: "Profil non trouvé pour l'identifiant d'utilisateur spécifié" });
+            }
+        });
+    } catch (error) {
+        console.error("Erreur lors de la modification du profil : ", error);
+        res.status(500).json({ message: "Erreur lors de la modification du profil" });
+    }
+});
+
+
+
+
+
+
+
+
+// Suppression du compte côté serveur
+app.delete("/user/:userId", async (req, res) => {
+    const userIdToDelete = parseInt(req.params.userId, 10);
+
+    try {
+        // Effectuer la suppression du compte dans la base de données
+        const query = "DELETE FROM utilisateur WHERE id = ?";
+        const values = [userIdToDelete];
+
+        connection.query(query, values, (error, results, fields) => {
+            if (error) {
+                console.error("Erreur lors de la suppression du compte dans la base de données : ", error);
+                res.status(500).json({ message: "Erreur lors de la suppression du compte" });
+            } else if (results.affectedRows > 0) {
+                res.status(200).json({ message: "Compte supprimé avec succès" });
+            } else {
+                res.status(404).json({ message: "Compte non trouvé pour l'identifiant d'utilisateur spécifié" });
+            }
+        });
+    } catch (error) {
+        console.error("Erreur lors de la suppression du compte : ", error);
+        res.status(500).json({ message: "Erreur lors de la suppression du compte" });
+    }
+});
+
+
+
 
 
 
@@ -181,6 +295,13 @@ app.post('/logout', (req, res) => {
         res.status(200).json({ message: 'Déconnexion réussie' });
     });
 });
+
+
+
+
+
+
+
 
 app.listen(port, () => {
     console.log(`Serveur Node écoutant sur le port ${port}`);

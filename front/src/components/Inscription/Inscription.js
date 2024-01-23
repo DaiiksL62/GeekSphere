@@ -11,7 +11,7 @@ const Inscription = () => {
     const [isSubmissionSuccessful, setIsSubmissionSuccessful] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        // Ajoutez vos règles de validation pour chaque champ
+        // règles de validation pour chaque champ
         username: Yup.string()
             .required('Le pseudo est obligatoire')
             .min(3, 'Le pseudo doit avoir au moins 3 caractères')
@@ -44,13 +44,14 @@ const Inscription = () => {
     const formik = useFormik({
         initialValues: {
             profilePicture: '',
-            username: 'Florian12',
-            firstName: 'momo',
-            lastName: 'flo',
-            email: 'florianduval62@gmail.com',
-            password: '123456789',
-            confirmPassword: '123456789',
+            username: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
             agreeToTerms: false,
+            etat: '1', //Par defaut ce sera un utlisateur//
         },
         validationSchema,
         onSubmit: async (values) => {
@@ -84,7 +85,7 @@ const Inscription = () => {
 
                 // Redirection vers le profil après inscription réussie
                 setTimeout(() => {
-                    navigate('/profil');
+                    navigate('/');
                 }, 5000);
 
             } catch (error) {
@@ -104,6 +105,7 @@ const Inscription = () => {
             <div className={styles.registrationContainer}>
                 <form onSubmit={formik.handleSubmit} className={styles.registrationForm} encType="multipart/form-data">
                     {/* Champs du formulaire */}
+
                     <label htmlFor="profilePicture">Photo de profil</label>
                     <input type="file" id="profilePicture" name="profilePicture" onChange={(event) => formik.setFieldValue('profilePicture', event.currentTarget.files[0])} multiple />
 

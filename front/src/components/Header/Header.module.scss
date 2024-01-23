@@ -34,6 +34,7 @@ ul {
     display: flex;
     font-size: 19px;
     gap: 35px;
+    align-items: center;
 }
 
 li {
@@ -43,7 +44,20 @@ li {
 a {
     text-decoration: none;
     color: black;
-    font-size: 22px;
+    font-size: 19px;
     font-family: 'Jockey One', sans-serif;
 
+}
+
+
+.logoutButton {
+    padding: 10px;
+    background-color: #DE8500;
+    /* Red background color (you can change this) */
+    color: black;
+    /* White text color (you can change this) */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 19px;
 }

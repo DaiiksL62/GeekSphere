@@ -25,16 +25,15 @@ const Header = () => {
                     <li>
                         <Link to="/technologies">Technologies</Link>
                     </li>
-                    {/* Modifiez la section d'inscription et connexion en fonction de l'état d'authentification */}
                     {user ? (
-                        // Si l'utilisateur est connecté, affichez le pseudo, la photo de profil et un lien de déconnexion
+                        // Si l'utilisateur est connecté, affichez le pseudo et un lien de déconnexion
                         <>
 
                             <li>
                                 <Link to="/profil">{user.username}</Link>
                             </li>
                             <li>
-                                <button onClick={logout}>Déconnexion</button>
+                                <button onClick={logout} className={styles.logoutButton}>Déconnexion</button>
                             </li>
                         </>
                     ) : (
@@ -52,6 +51,6 @@ const Header = () => {
             </div>
         </div>
     );
-}; s
+};
 
 export default Header;

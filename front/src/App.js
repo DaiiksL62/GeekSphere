@@ -13,6 +13,8 @@ import Inscription from './components/Inscription/Inscription';
 import Connexion from './components/Pages/Connexion/Connexion';
 import Profil from './components/Pages/Profil/Profil';
 import { AuthProvider } from './AuthContext'; // Importer AuthProvider
+import ModifierMonProfil from './components/Pages/Profil/Modification/Modification'
+import SupprimerMonProfil from './components/Pages/Profil/Supprimer/Supprimer';
 
 const App = () => {
   return (
@@ -29,6 +31,9 @@ const App = () => {
           <Route path="/profil" element={<Profil />} />
           <Route path="/connexion" element={<Connexion />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/profil/modification/:id" element={<ModifierMonProfil />} />
+          <Route path="/profil/supprimer/:id" element={<SupprimerMonProfil />} />
+
         </Routes>
         <Footer />
       </Router>

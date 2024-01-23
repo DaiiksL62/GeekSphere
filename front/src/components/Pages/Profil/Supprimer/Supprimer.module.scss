@@ -1,0 +1,52 @@
+// Supprimer.module.scss
+
+.titleSupprimer {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center; // Centrer le texte
+    margin: 20px 0;
+    color: #DE8500;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.deleteContainer {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.successMessage {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.confirmationMessage {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.containerButton {
+    text-align: center;
+}
+
+.buttonDelete {
+    background-color: #ff3333;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.buttonDelete:hover {
+    background-color: #cc0000;
+}

@@ -37,15 +37,15 @@ const Connexion = () => {
                 if (response.ok) {
                     // If authentication is successful, handle the response
                     const userFromServer = await response.json();
-                    login(userFromServer);
+                    login(userFromServer.user);
 
                     // Afficher le message de réussite
                     setSuccessMessage('Connexion réussie ! Redirection en cours...');
 
                     // Rediriger l'utilisateur après un court délai (par exemple, 2 secondes)
                     setTimeout(() => {
-                        navigate('/profil'); // Redirige vers la page de profil
-                    }, 2000);
+                        navigate('/'); // Redirige vers la page de profil
+                    }, 5000);
                 } else {
                     // Handle the case where authentication fails
                     setErrorMessage('Erreur lors de la connexion. Vérifiez vos informations.');

@@ -1,0 +1,41 @@
+.link1 {
+    color: #D17000;
+}
+
+/* Profil.module.scss */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    /* Change la direction en colonne */
+    align-items: center;
+    /* Centre les éléments horizontalement */
+}
+
+.linkProfil {
+    display: flex;
+    flex-direction: column;
+}
+
+.divInfo {
+    justify-content: center;
+}
+
+.profileSection {
+    width: 100%;
+    display: flex;
+}
+
+.title1 {
+    color: #D17000;
+}
+
+.imgAvatar {
+    width: 30%;
+}
+
+.navProfil {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 45%;
+}
